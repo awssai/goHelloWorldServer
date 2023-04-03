@@ -1,0 +1,39 @@
+pipeline:
+  name: myfirstpipeline
+  identifier: myfirstpipeline
+  projectIdentifier: CI_kubernetes_tutorial
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: account.Github_OAuth_1680481901895
+        repoName: awssai/goHelloWorldServer
+        build: <+input>
+  stages:
+    - stage:
+        name: Build Test and Push
+        identifier: Build_Test_and_Push
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: MacOS
+            arch: Arm64
+          runtime:
+            type: Docker
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: BuildAndPushECR
+                  name: BuildAndPushECR_1
+                  identifier: BuildAndPushECR_1
+                  spec:
+                    connectorRef: MyAWS
+                    region: us-east-1
+                    account: "533803913348"
+                    imageName: golang
+                    tags:
+                      - "1.15"
